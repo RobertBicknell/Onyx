@@ -36,7 +36,7 @@ apiResult = await client.GetStringAsync("https://localhost:6001/products");
 apiResult = await client.GetStringAsync("https://localhost:6001/products/colour/yellow");
 
 var productToPut = new Product { 
-    Name = "Eggs2",
+    Name = "Eggs3",
     Colour = "Orange"
 };
 //var jsonString = @"{

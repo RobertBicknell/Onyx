@@ -8,8 +8,7 @@ namespace Onyx.API.Products.Client.Models
 {
     public class Product
     {
-        //[PrimaryKey]
-        //public int ID { get; set; } //Id?
+        public int ID { get; set; } 
         public string Name { get; set; }
         public string Colour { get; set; }
     }
