@@ -11,7 +11,7 @@ using Onyx.API.Products;
 namespace Onyx.API.Products.Migrations
 {
     [DbContext(typeof(ProductsDbContext))]
-    [Migration("20240828025019_InitialCreate")]
+    [Migration("20240828123514_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -38,9 +38,12 @@ namespace Onyx.API.Products.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Products");
                 });

@@ -33,13 +33,15 @@ var app = builder.Build();
 
 using var scope = app.Services.CreateScope();
 var dbContext = scope.ServiceProvider.GetRequiredService<ProductsDbContext>();
-//CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-dbContext.Database.EnsureCreated();
-try
-{
-    dbContext.Database.Migrate();
-}
-catch (Exception) { }
+
+//dbContext.Database.EnsureCreated();
+//try
+//{
+//    dbContext.Database.Migrate();
+//}
+//catch (Exception) { }
+
+
 
 //LambdaMapper<Product, string>.Build();
 

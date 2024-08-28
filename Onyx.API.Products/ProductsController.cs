@@ -33,6 +33,7 @@ namespace Onyx.API.Products
         [HttpPut]
         public async Task<IActionResult> Put([Bind("Name, Colour")] Product productModel)
         {
+            //TODO review for error / injection
             await _context.Products.AddAsync(productModel);
             await _context.SaveChangesAsync();
             return Created();
