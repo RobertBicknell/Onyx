@@ -12,7 +12,7 @@ namespace Onyx.API.Products
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //DEBUG - verifies lamba filter for "colour" in ProductController/PUT translates to SQL
+            //DEBUG - verifies lamba filter for "colour" in ProductController/GET translates to SQL where clause
             //optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information); 
         }
 
@@ -20,7 +20,7 @@ namespace Onyx.API.Products
         {
             modelBuilder.Entity<Product>()
 
-                .HasIndex(e => e.Name)
+                .HasIndex(e => e.Name) 
                 .IsUnique();
 
             base.OnModelCreating(modelBuilder);
