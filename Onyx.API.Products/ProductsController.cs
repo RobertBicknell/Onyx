@@ -26,17 +26,23 @@ namespace Onyx.API.Products
         [HttpGet("{filterProperty}/{filterValue}")]
         public IActionResult GetProducts(string filterProperty, string filterValue)
         {
-            if(!LambdaFactory<Product>.TryCreateFilter(filterProperty, filterValue, out var lambda)) return BadRequest();  
+            //can only compare a string property for equality with filterValue
+            if(!LambdaFactory<Product>.TryCreateFilter(filterProperty, filterValue, out var lambda)) return BadRequest("Invalid filter for Product");  
             var filteredEntities = _context.Products.Where(lambda);
             return Ok(filteredEntities);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([Bind("Name, Colour")] Product productModel)
+        public async Task<IActionResult> Put([Bind("Name, Colour")] Product product)
         {
-            //TODO review for error / injection
-            await _context.Products.AddAsync(productModel);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.Products.AddAsync(product);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e) {
+                return BadRequest("Could not add Product. Check if Product with same Name already exists.");
+            }
             return Created();
         }
     }
