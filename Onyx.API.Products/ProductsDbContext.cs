@@ -20,8 +20,11 @@ namespace Onyx.API.Products
         {
             modelBuilder.Entity<Product>()
 
-                .HasIndex(e => e.Name) 
+                .HasIndex(e => e.Name)
                 .IsUnique();
+
+            modelBuilder.Entity<Product>()
+                .HasIndex(e => e.Colour);
 
             base.OnModelCreating(modelBuilder);
         
