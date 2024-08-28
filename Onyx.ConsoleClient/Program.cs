@@ -29,5 +29,9 @@ if (tokenResponse.IsError)
 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse.AccessToken);
 var apiResult = await client.GetStringAsync("https://localhost:6001/weatherforecast");
 
+apiResult = await client.GetStringAsync("https://localhost:6001/products");
+
+apiResult = await client.GetStringAsync("https://localhost:6001/products/colour/yellow");
+
 Console.WriteLine(tokenResponse.AccessToken);
 Console.ReadKey();
