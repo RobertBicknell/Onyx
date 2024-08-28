@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 
 namespace Onyx.API.Products
 {
-    public class ProductsDbContext : DbContext
+    public class ProductsDbContext : DbContext, IProductsDbContext
     {
         public ProductsDbContext(DbContextOptions<ProductsDbContext> options): base(options)
         {
@@ -12,9 +12,8 @@ namespace Onyx.API.Products
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
-
-            //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Products;ConnectRetryCount=0");
+            //DEBUG - verifies lamba filter for "colour" in ProductController/PUT translates to SQL
+            //optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information); 
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -28,6 +27,11 @@ namespace Onyx.API.Products
         
         }
 
+        public DbSet<Product> Products { get; set; }
+    }
+
+    internal interface IProductsDbContext
+    {
         public DbSet<Product> Products { get; set; }
     }
 }
