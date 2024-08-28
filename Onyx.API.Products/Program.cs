@@ -4,6 +4,7 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Globalization;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<ProductsDbContext>(
 //options => options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Products;ConnectRetryCount=0"));
-    options => options.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=Products;Integrated Security=True;TrustServerCertificate=True;ConnectRetryCount=0"));
+    options => options.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=Products;Integrated Security=True;TrustServerCertificate=True;ConnectRetryCount=0")); //TODO take from config
 
 builder.Services.AddAuthentication()
     .AddJwtBearer(options =>
@@ -28,6 +29,21 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim("scope", "products");
     });
 });
+
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: false)
+    //.AddEnvironmentVariables()
+    .Build();
+
+builder.Services.AddHealthChecks()
+    .AddCheck(
+        "ProductsDB-check",
+        new SqlConnectionHealthCheck(configuration.GetValue<string>("ConnectionString")),
+        HealthStatus.Unhealthy,
+        new string[] { "productsdb" });
+
+
 
 var app = builder.Build();
 
@@ -56,5 +72,7 @@ app.MapControllers();
 
 app.MapGet("identity", (ClaimsPrincipal user) => user.Claims.Select(c => new { c.Type, c.Value }))
     .RequireAuthorization("ApiScope");
+
+app.MapHealthChecks("/hc");
 
 app.Run();
