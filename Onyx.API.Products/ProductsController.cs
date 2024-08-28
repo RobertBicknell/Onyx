@@ -40,7 +40,7 @@ namespace Onyx.API.Products
                 await _context.Products.AddAsync(product);
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException exDbUpdate) {
+            catch (DbUpdateException) {
                 return BadRequest("Could not add Product. Check if Product with same Name already exists.");
             }
             catch (Exception e)
