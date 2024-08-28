@@ -35,6 +35,9 @@ var apiResult = await client.GetStringAsync("https://localhost:6001/weatherforec
 apiResult = await client.GetStringAsync("https://localhost:6001/products");
 apiResult = await client.GetStringAsync("https://localhost:6001/products/colour/yellow");
 
+apiResult = await client.GetStringAsync("https://localhost:6001/products/badfield/yellow");
+
+
 var productToPut = new Product { 
     Name = "Eggs3",
     Colour = "Orange"
@@ -46,6 +49,9 @@ var productToPut = new Product {
 
 
 var putResult = await client.PutAsJsonAsync("https://localhost:6001/products/", productToPut);
+
+
+
 
 
 

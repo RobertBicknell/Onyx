@@ -26,8 +26,7 @@ namespace Onyx.API.Products
         [HttpGet("{filterProperty}/{filterValue}")]
         public IActionResult GetProducts(string filterProperty, string filterValue)
         {
-            //TODO check inputs
-            var lambda = LambdaFactory<Product>.CreateFilter(filterProperty, filterValue);  
+            if(!LambdaFactory<Product>.TryCreateFilter(filterProperty, filterValue, out var lambda)) return BadRequest();  
             var filteredEntities = _context.Products.Where(lambda);
             return Ok(filteredEntities);
         }
