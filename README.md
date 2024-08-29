@@ -25,8 +25,7 @@ Auth
 		One scope is supported in the identity server, but more could be added, providing granular support to secure individual Controller Actions (e.g. Read-only GETs for one user, Read-Write GETs/PUT for another)
 
 Testing
-		Unit Tests. There seemed little need to implement a repository for the requirements as they may be met with simple DbContext calls. The remaining code is mostly app setup and configuration that cannot be usefully extracted for testing, and without any injected dependencies, there seems little to Unit Test. Therefore, the only unit tests are for the LambdaFactory.TryCreateFilter method and no mocks were needed. Otherwise, I would use NSubstitute to exercise unit/component logic with mock dependencies. Another demo repo contains example of this style of testing: https://github.com/RobertBicknell/Brady 
-
+		Unit Tests. There seemed little need to implement a repository for the requirements as they may be met with simple DbContext calls. The remaining code is mostly app setup and configuration that cannot be usefully extracted for testing, and without any injected dependencies, there seems little to Unit Test. Therefore, the only unit tests are for the LambdaFactory.TryCreateFilter method and no mocks were needed. Otherwise, I would use NSubstitute to exercise unit/component logic with mock dependencies. Another demo repo contains example of this style of testing: https://github.com/RobertBicknell/Brady  
 		e2e / integration tests. The servers are started from their debug build locations, then queried. In a production environment, these tests would use DEV/TEST appsettings to target a testing database. As this is a demo, just one database was used.
 
 
