@@ -36,6 +36,9 @@ var configuration = new ConfigurationBuilder()
     //.AddEnvironmentVariables()
     .Build();
 
+var applicationUrl = builder.Configuration["ApplicationUrl"];
+builder.WebHost.UseUrls(applicationUrl);
+
 builder.Services.AddHealthChecks()
     .AddCheck(
         "ProductsDB-check",

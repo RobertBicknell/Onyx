@@ -6,7 +6,10 @@ using System.Net.Http.Json;
 
 // discover endpoints from metadata
 var client = new HttpClient();
+//was working:
 var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
+
+//var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5001");
 if (disco.IsError)
 {
     Console.WriteLine(disco.Error);
