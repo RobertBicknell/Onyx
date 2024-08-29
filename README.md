@@ -31,7 +31,7 @@ Testing
 
 DIAGRAM (EventDrivenArch.png)
 
-The diagram shows various microservice components interacting asynchronously via Event Bus messages.
+The diagram shows various microservice components interacting asynchronously via Event Bus messages. Same coloured lines are part of the same flow of user actions.
 	
 Each component publishes events and subscribes to others. Topic and exchange schemes allow one message to reach multiple receivers without the emitter needing seperate config for, or managing the connectivity with, other components. This eases design and scaling and makes performance behaviour more predictable, and allows for different parts of the system to fail or be updated with minimal impact to the overall system. 
 	
