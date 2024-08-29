@@ -1,36 +1,36 @@
 README
 
-	Architecture
+Architecture
 
-	Choices:
+Choices:
 		Duende Identity Server was chosen as the identity provider.
 		This is a well-known standard component supporting OIDC/OAuth standards, in particular, JWT tokens.
 		It should be a good choice for securing an API use in a server-to-server distributed application, but can also be used from front-end clients such as SPAs
 		and avoids the limitations of ASP.NET Forms authentication.
 		In advanced scenarios (such as Open Banking specifications), Mutual TLS may be required, and this is also supported.
 
-	Components:
+Components:
 		Servers:
 			1. Identity server - supports (api) login and the issuing, refreshing and cancelling of claims/scope-based tokens used for Authentication and Authorisations by the:
 			2. Products API server - this requires a valid token issued by the identity server (except for the healthcheck). Tokens are verified using the Public Key downloaded (once at startup, then cached) from Identity Server's public discovery document endpoint. The key can decrypt the encrypted JWT token payload, confirming the users claims and scopes. In this way, the API server avoids the overhead of making a separate call to the identity sever to authorise the token and reduces the surface area for intercepting credentials.
 
-		Databases, accounts, seed data:
+Databases, accounts, seed data:
 			In this demo, one user account is hardcoded and no method is provided to create more. 
 			As such, the user account information is stored in memory and no database is used. In a production scenario with interactive users, a database would be required.
 			The Products are stored in a SQLEXPRESS database, with the connection string in appSettings of the ProductsAPI project.  
 			The database and tables can be created by running the Migrations. No seed data is loaded by default.
 
-	Auth 
+Auth 
 		The authentication is not forms-based, but occurs in HTTP headers using OAuth standards, as might be the case in server-to-server scenarios.
 		One scope is supported in the identity server, but more could be added, providing granular support to secure individual Controller Actions (e.g. Read-only GETs for one user, Read-Write GETs/PUT for another)
 
-	Testing
-		Unit Tests. There seemed little need to implement a repository for the requirements as they may be met with simple DbContext calls. The remaining code is mostly app setup and configuration that cannot be usefully extracted for testing, and without any injected dependencies, there seems little to Unit Test. Therefore, the only unit tests are for the LambdaFactory.TryCreateFilter method and no mocks were needed. Otherwise, I would use NSubstitute to exercise unit/component logic with mock dependencies. Another demo repo contains example of this style of testing: https://github.com/RobertBicknell/Brady
+Testing
+		Unit Tests. There seemed little need to implement a repository for the requirements as they may be met with simple DbContext calls. The remaining code is mostly app setup and configuration that cannot be usefully extracted for testing, and without any injected dependencies, there seems little to Unit Test. Therefore, the only unit tests are for the LambdaFactory.TryCreateFilter method and no mocks were needed. Otherwise, I would use NSubstitute to exercise unit/component logic with mock dependencies. Another demo repo contains example of this style of testing: https://github.com/RobertBicknell/Brady 
 
-		e2e / integration tests. The servers are started form their debug build locations, then queried. In a production environment, these tests would use DEV/TEST appsettings to target a testing database. As this is a demo, just one database was used.
+		e2e / integration tests. The servers are started from their debug build locations, then queried. In a production environment, these tests would use DEV/TEST appsettings to target a testing database. As this is a demo, just one database was used.
 
 
-DIAGRAM
+DIAGRAM (EventDrivenArch.png)
 
 The diagram shows various microservice components interacting asynchronously via Event Bus messages.
 	
