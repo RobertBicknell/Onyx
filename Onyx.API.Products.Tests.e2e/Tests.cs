@@ -14,9 +14,6 @@ namespace Onyx.API.Products.Tests.e2e
 {
     public class TestsFixture : IDisposable
     {
-
-
-
         Process _authProcess = null;
         Process _apiProcess = null;
 
@@ -79,6 +76,7 @@ namespace Onyx.API.Products.Tests.e2e
         private HttpClient _client = new();
         const string authServerUrl = "https://localhost:5001";
         const string healthCheckUrl = "https://localhost:6001/hc";
+        const string productsUrl = "https://localhost:6001/products";
 
         public Tests() {
             TestsHelper.DeleteProducts();
@@ -105,7 +103,7 @@ namespace Onyx.API.Products.Tests.e2e
         [Fact]
         public async Task ApiServerProductsRejectsAnonRequest()
         {
-            Task result () => _client.GetStringAsync("https://localhost:6001/products"); 
+            Task result () => _client.GetStringAsync(productsUrl); 
             await Assert.ThrowsAsync<HttpRequestException>(result);
         }
         [Fact]
@@ -113,7 +111,7 @@ namespace Onyx.API.Products.Tests.e2e
         {
             var token = await GetTokenForValidUser();
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
-            var apiResult = await _client.GetStringAsync("https://localhost:6001/products");
+            var apiResult = await _client.GetStringAsync(productsUrl);
         }
 
         [Fact]
@@ -121,7 +119,7 @@ namespace Onyx.API.Products.Tests.e2e
         {
             var token = await GetTokenForValidUser();
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
-            var apiResult = await _client.GetAsync("https://localhost:6001/products/badfield/yellow");
+            var apiResult = await _client.GetAsync($"{productsUrl}/badfield/yellow");
             Assert.True(apiResult.StatusCode == System.Net.HttpStatusCode.BadRequest);
         }
 
@@ -135,8 +133,8 @@ namespace Onyx.API.Products.Tests.e2e
                 Name = $"Product-ApiServerProductsReturnsProductForValidFilter",
                 Colour = "Yellow"
             };
-            var putResult = await _client.PutAsJsonAsync("https://localhost:6001/products/", productToPut);
-            var apiResult = await _client.GetStringAsync("https://localhost:6001/products/colour/yellow");
+            var putResult = await _client.PutAsJsonAsync(productsUrl, productToPut);
+            var apiResult = await _client.GetStringAsync($"{productsUrl}/colour/yellow");
             var results = JsonConvert.DeserializeObject<List<Product>>(apiResult);
             foreach (var r in results) {
                 Assert.Equal("Yellow", r.Colour);
@@ -154,13 +152,13 @@ namespace Onyx.API.Products.Tests.e2e
                 Name = duplicateName,
                 Colour = "Orange"
             };
-            var putResult = await _client.PutAsJsonAsync("https://localhost:6001/products/", productToPut);
+            var putResult = await _client.PutAsJsonAsync(productsUrl, productToPut);
             productToPut = new Product
             {
                 Name = duplicateName,
                 Colour = "Green"
             };
-            putResult = await _client.PutAsJsonAsync("https://localhost:6001/products/", productToPut);
+            putResult = await _client.PutAsJsonAsync(productsUrl, productToPut);
             Assert.True(putResult.StatusCode == System.Net.HttpStatusCode.Conflict);
         }
 
@@ -174,8 +172,8 @@ namespace Onyx.API.Products.Tests.e2e
                 Name = "Product-ApiServerCreatesProductForNewProduct",
                 Colour = "Orange"
             };
-            var putResult = await _client.PutAsJsonAsync("https://localhost:6001/products/", productToPut);
-            var apiResult = await _client.GetStringAsync("https://localhost:6001/products/");
+            var putResult = await _client.PutAsJsonAsync(productsUrl, productToPut);
+            var apiResult = await _client.GetStringAsync(productsUrl);
             var results = JsonConvert.DeserializeObject<List<Product>>(apiResult);
             var matches = results.Where(r => r.Name == productToPut.Name);
             Assert.True(matches.Count() == 1);             

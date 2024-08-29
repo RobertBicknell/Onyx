@@ -8,19 +8,25 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: false)
+    .Build();
+
+var connectionString = configuration.GetValue<string>("ConnectionString");
+var applicationUrl = builder.Configuration["ApplicationUrl"];
+var identityServer = builder.Configuration["IdentityServer"];
+
+builder.WebHost.UseUrls(applicationUrl);
 builder.Services.AddControllers();
-
 builder.Services.AddDbContext<IProductsDbContext, ProductsDbContext>(
-//options => options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Products;ConnectRetryCount=0"));
-    options => options.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=Products;Integrated Security=True;TrustServerCertificate=True;ConnectRetryCount=0")); //TODO take from config
-
+    options => options.UseSqlServer(connectionString)); 
 builder.Services.AddAuthentication()
     .AddJwtBearer(options =>
     {
-        options.Authority = "https://localhost:5001"; //todo can be loaded from config
+        options.Authority = identityServer; 
         options.TokenValidationParameters.ValidateAudience = false;
     });
-
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("ApiScope", policy =>
@@ -29,20 +35,10 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim("scope", "products");
     });
 });
-
-var configuration = new ConfigurationBuilder()
-    .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json", optional: false)
-    //.AddEnvironmentVariables()
-    .Build();
-
-var applicationUrl = builder.Configuration["ApplicationUrl"];
-builder.WebHost.UseUrls(applicationUrl);
-
 builder.Services.AddHealthChecks()
     .AddCheck(
         "ProductsDB-check",
-        new SqlConnectionHealthCheck(configuration.GetValue<string>("ConnectionString")),
+        new SqlConnectionHealthCheck(connectionString),
         HealthStatus.Unhealthy,
         new string[] { "productsdb" });
 
@@ -50,32 +46,13 @@ builder.Services.AddHealthChecks()
 
 var app = builder.Build();
 
-using var scope = app.Services.CreateScope();
-var dbContext = scope.ServiceProvider.GetRequiredService<ProductsDbContext>();
-
-//dbContext.Database.EnsureCreated();
-//try
-//{
-//    dbContext.Database.Migrate();
-//}
-//catch (Exception) { }
-
-
-
-//LambdaMapper<Product, string>.Build();
-
 
 // Configure the HTTP request pipeline.
-
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.MapGet("identity", (ClaimsPrincipal user) => user.Claims.Select(c => new { c.Type, c.Value }))
     .RequireAuthorization("ApiScope");
-
 app.MapHealthChecks("/hc");
 
 app.Run();

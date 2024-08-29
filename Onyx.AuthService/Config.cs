@@ -2,7 +2,7 @@
 
 namespace Onyx.AuthService
 {
-    public static class Config //TODO this is what needs to be stored, perhaps it could just be stored in some local JSON
+    public static class Config 
     {
         public static IEnumerable<IdentityResource> IdentityResources =>
             new IdentityResource[]
