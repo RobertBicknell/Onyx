@@ -101,10 +101,10 @@ namespace Onyx.API.Products.Tests.e2e
         }
 
         [Fact]
-        public async Task ApiServerProductsRejectsAnonRequest()
+        public async Task ApiServerProductsAnonRequestReturnsNotAuthorized()
         {
-            Task result () => _client.GetStringAsync(productsUrl); 
-            await Assert.ThrowsAsync<HttpRequestException>(result);
+            var apiResult = await _client.GetAsync(productsUrl);
+            Assert.True(apiResult.StatusCode == System.Net.HttpStatusCode.Unauthorized);
         }
         [Fact]
         public async Task ApiServerProductsAllowsAccessToProductsForAuthenticatdUser()
