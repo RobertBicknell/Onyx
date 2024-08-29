@@ -12,8 +12,7 @@ README
 	Components:
 		Servers:
 			1. Identity server - supports (api) login and the issuing, refreshing and cancelling of claims/scope-based tokens used for Authentication and Authorisations by the:
-			2. Products API server - this requires a valid token issued by the identity server. This is verified using the Public Key downloaded (once at startup, then cached) from Identity Server's public discovery docuemnt endpoint. The key can decrypt the encrypted JWT token payload, confirming the users claims and scopes. In this way, the API server avoids the overhead of making a separate call to the identity sever to authorise access and reduces the surface area for intercepting credentials.
-			3. A test client, representing another service requiring access to the API server. This mimics a Web Application supporting interactive users, or a non-interactive system service.
+			2. Products API server - this requires a valid token issued by the identity server (except for the healthcheck). Tokens are verified using the Public Key downloaded (once at startup, then cached) from Identity Server's public discovery document endpoint. The key can decrypt the encrypted JWT token payload, confirming the users claims and scopes. In this way, the API server avoids the overhead of making a separate call to the identity sever to authorise the token and reduces the surface area for intercepting credentials.
 
 		Databases, accounts, seed data:
 			In this demo, one user account is hardcoded and no method is provided to create more. 
@@ -26,18 +25,18 @@ README
 		One scope is supported in the identity server, but more could be added, providing granular support to secure individual Controller Actions (e.g. Read-only GETs for one user, Read-Write GETs/PUT for another)
 
 	Testing
-		Unit Tests. There seemed little need to implement a repository for the requirements as they may be met with simple DbContext calls. The remaining code is app setup and configuration that cannot be usefully extracted for testing, and without any injected dependencies, there seems little to Unit Test. Therefore, the only unit tests are for the LambdaFactory.TryCreateFilter method and no mocks were needed. Otherwise, I would use NSubstitute to exercise unit/component logic with mock dependencies.
+		Unit Tests. There seemed little need to implement a repository for the requirements as they may be met with simple DbContext calls. The remaining code is mostly app setup and configuration that cannot be usefully extracted for testing, and without any injected dependencies, there seems little to Unit Test. Therefore, the only unit tests are for the LambdaFactory.TryCreateFilter method and no mocks were needed. Otherwise, I would use NSubstitute to exercise unit/component logic with mock dependencies. Another demo repo contains example of this style of testing: https://github.com/RobertBicknell/Brady
 
-		Integration tests. A separate client Console App was used for integration / e2e testing.  A .bet file first starts the Auth and API project exes, then the client which calls those endpoints. In a production environment, these tests would use DEV/TEST appsettings to target a testing database. As this is a demo, just one database was used.
+		e2e / integration tests. The servers are started form their debug build locations, then queried. In a production environment, these tests would use DEV/TEST appsettings to target a testing database. As this is a demo, just one database was used.
 
 
 DIAGRAM
 
 The diagram shows various microservice components interacting asynchronously via Event Bus messages.
 	
-Each component publishes events and subscribes to others, usually via topics. This allows one message to reach multiple receivers without the emitter needing seperate config for, or managing the connectivity with, other components. This eases scaling and makes performance behaviour more predictable, and allows for different parts of the system to fail or be updated with minimal impact to the overall system. 
+Each component publishes events and subscribes to others. Topic and exchange schemes allow one message to reach multiple receivers without the emitter needing seperate config for, or managing the connectivity with, other components. This eases design and scaling and makes performance behaviour more predictable, and allows for different parts of the system to fail or be updated with minimal impact to the overall system. 
 	
-In the microservice model, each component maintains its own persistent store of system data needed to perform its functions. Replication or updates can occur in different ways, one is the Outbox pattern whereby updates are transmitted from Database commit logs, producing a higher-degree of certainty about the integrity of the system's state. Kafka offers various levels of guarantee about message delivery, such as at-least-once, and exactly-once.
+In the microservice model, each component maintains its own persistent store of system data needed to perform its functions. Replication or updates can occur in different ways, one is the Outbox pattern whereby updates are transmitted from Database commit logs, producing a higher-degree of certainty about the integrity of the system's state. To assist with idempotency, Kafka offers various levels of guarantee about message delivery, such as at-least-once, and exactly-once.
 
 SignalR, websockets or HTTP2 are ways to avoid polling for updates between components or client sessions, meaning new messages can be acted-on in realtime, reducing latency and making user applications more responsive.
 
