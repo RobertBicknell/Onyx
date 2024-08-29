@@ -7,7 +7,7 @@ README
 		This is a well-known standard component supporting OIDC/OAuth standards, in particular, JWT tokens.
 		It should be a good choice for securing an API use in a server-to-server distributed application, but can also be used from front-end clients such as SPAs
 		and avoids the limitations of ASP.NET Forms authentication.
-		In advanced scenarios (such Open Banking specifications), Mutual Tls may be required, and this is also supported.
+		In advanced scenarios (such as Open Banking specifications), Mutual TLS may be required, and this is also supported.
 
 	Components:
 		Servers:

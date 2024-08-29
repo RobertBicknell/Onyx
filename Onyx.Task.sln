@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onyx.AuthService", "Onyx.AuthService\Onyx.AuthService.csproj", "{597C1B76-6014-406C-9E0C-BD8734A34EBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Onyx.AuthService", "Onyx.AuthService\Onyx.AuthService.csproj", "{597C1B76-6014-406C-9E0C-BD8734A34EBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onyx.API.Products", "Onyx.API.Products\Onyx.API.Products.csproj", "{7144BCAF-0BA4-4447-BC87-0719A827037A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Onyx.API.Products", "Onyx.API.Products\Onyx.API.Products.csproj", "{7144BCAF-0BA4-4447-BC87-0719A827037A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onyx.API.Products.Tests.e2e", "Onyx.API.Products.Tests.e2e\Onyx.API.Products.Tests.e2e.csproj", "{46AD0F8C-DF0B-4CE8-9D8F-9217FF192A2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Onyx.API.Products.Tests.e2e", "Onyx.API.Products.Tests.e2e\Onyx.API.Products.Tests.e2e.csproj", "{46AD0F8C-DF0B-4CE8-9D8F-9217FF192A2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onyx.Helpers.UnitTests", "Onyx.Helpers.UnitTests\Onyx.Helpers.UnitTests.csproj", "{25C301C0-904D-4672-BA87-116FFB573794}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{46AD0F8C-DF0B-4CE8-9D8F-9217FF192A2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46AD0F8C-DF0B-4CE8-9D8F-9217FF192A2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46AD0F8C-DF0B-4CE8-9D8F-9217FF192A2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25C301C0-904D-4672-BA87-116FFB573794}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25C301C0-904D-4672-BA87-116FFB573794}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25C301C0-904D-4672-BA87-116FFB573794}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25C301C0-904D-4672-BA87-116FFB573794}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,7 +2,7 @@
 
 namespace Onyx.API.Products
 {
-    internal static class LambdaFactory<T> {
+    public static class LambdaFactory<T> {
         public static bool TryCreateFilter(string filterProperty, string filterValue, out Expression<Func<T, bool>> lambda)
         {
             try
