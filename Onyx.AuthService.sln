@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onyx.AuthService", "Onyx.Au
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onyx.API.Products", "Onyx.API.Products\Onyx.API.Products.csproj", "{7144BCAF-0BA4-4447-BC87-0719A827037A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onyx.ConsoleClient", "Onyx.ConsoleClient\Onyx.ConsoleClient.csproj", "{1338E1B0-A7B7-429F-94EC-6D22D4E38AFF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onyx.API.Products.Tests.e2e", "Onyx.API.Products.Tests.e2e\Onyx.API.Products.Tests.e2e.csproj", "{46AD0F8C-DF0B-4CE8-9D8F-9217FF192A2B}"
 EndProject
 Global
@@ -25,10 +23,6 @@ Global
 		{7144BCAF-0BA4-4447-BC87-0719A827037A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7144BCAF-0BA4-4447-BC87-0719A827037A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7144BCAF-0BA4-4447-BC87-0719A827037A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1338E1B0-A7B7-429F-94EC-6D22D4E38AFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1338E1B0-A7B7-429F-94EC-6D22D4E38AFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1338E1B0-A7B7-429F-94EC-6D22D4E38AFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1338E1B0-A7B7-429F-94EC-6D22D4E38AFF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{46AD0F8C-DF0B-4CE8-9D8F-9217FF192A2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{46AD0F8C-DF0B-4CE8-9D8F-9217FF192A2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46AD0F8C-DF0B-4CE8-9D8F-9217FF192A2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
